@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -18,18 +17,26 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ecodrink.ui.theme.poppins
 
 // ============================================================================
 // PALETA DE COLORES
 // ============================================================================
 val DarkGreenButton = Color(0xFF13422B)
+val CreamButton = Color(0xFFF4E8CA)
+val Maintext = Color(0xFF000000)
 val CardGreenHeader = Color(0xFFA3CE27)
 val CardOrange = Color(0xFFE9933B)
 val CardYellow = Color(0xFFD9BF42)
@@ -70,7 +77,7 @@ fun EcoDrinkApp() {
             }
         )
         "dashboard" -> DashboardScreen(
-            userName = userName
+            userName = userName,
         )
     }
 }
@@ -104,16 +111,17 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
             Image(
                 painter = painterResource(id = R.drawable.logo_ecodrink),
                 contentDescription = "Logo EcoDrink",
-                modifier = Modifier.size(130.dp)
+                modifier = Modifier.size(155.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "EcoDrink",
                 fontSize = 32.sp,
+                fontFamily = poppins,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = CreamButton
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -122,15 +130,25 @@ fun WelcomeScreen(onNavigateToLogin: () -> Unit) {
             Button(
                 onClick = onNavigateToLogin,
                 modifier = Modifier
-                    .fillMaxWidth(0.6f)
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
+                    .fillMaxWidth(0.5f)
+                    .dropShadow(
+                        shape = RoundedCornerShape(30.dp),
+                        shadow = Shadow(
+                            radius = 3.dp,
+                            spread = 2.dp,
+                            color = Color(0x40000000),
+                            offset = DpOffset(x = 0.dp, 2.dp)
+                        )
+                    )
+                    .width(200.dp)
+                    .height(56.dp),
+                shape = RoundedCornerShape(42.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = DarkGreenButton)
             ) {
-                Text("INICIAR", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text("INICIAR", fontSize = 23.sp, fontFamily = poppins, fontWeight = FontWeight.SemiBold, color = CreamButton )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(135.dp))
         }
     }
 }
@@ -148,11 +166,17 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
     // Diccionario de usuarios con sus contraseñas correspondientes
     val validUsers = mapOf(
         "sara" to "123",
+        "SARA" to "123",
         "abby" to "123",
+        "ABBY" to "123",
         "rocio" to "123",
+        "ROCIO" to "123",
         "keyla" to "123",
+        "KEYLA" to "123",
         "azul" to "123",
-        "blanca" to "123"
+        "AZUL" to "123",
+        "blanca" to "123",
+        "BLANCA" to "123"
     )
 
 
@@ -179,23 +203,24 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
             Image(
                 painter = painterResource(id = R.drawable.logo_ecodrink),
                 contentDescription = "Logo EcoDrink",
-                modifier = Modifier.size(110.dp)
+                modifier = Modifier
+                    .size(118.dp)
+                    .width(155.dp)
+                    .height(126.dp)
             )
-
-            Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = "EcoDrink",
-                fontSize = 28.sp,
+                fontSize = 32.sp,
+                fontFamily = poppins,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = CreamButton,
+                modifier = Modifier.height(281.dp)
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
 
             // Campo de Texto: Usuario
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("USUARIO", color = Color(0xFFEA5A24), fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text("USUARIO", color = Color(0xFFEA5A24), fontFamily = poppins, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
                     value = user,
@@ -203,15 +228,18 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
                         user = it
                         errorMessage = "" // Oculta el error al empezar a escribir nuevamente
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(25.dp)
+                        .height(30.dp)
+                        .width(300.dp),
+                    shape = RoundedCornerShape(40.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White.copy(alpha = 0.85f),
-                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = CreamButton,
+                        focusedContainerColor = CreamButton,
                         unfocusedBorderColor = Color.Transparent,
-                        focusedBorderColor = DarkGreenButton
+                        focusedBorderColor = CardOrange
                     ),
-                    leadingIcon = { Icon(Icons.Default.Person, contentDescription = null, tint = Color.Gray) },
                     singleLine = true,
                     isError = errorMessage.isNotEmpty()
                 )
@@ -294,7 +322,7 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
 // PANTALLA 3: DASHBOARD PRINCIPAL
 // ============================================================================
 @Composable
-fun DashboardScreen(userName: String) {
+fun DashboardScreen(userName: String, poppins: FontFamily? = com.example.ecodrink.ui.theme.poppins) {
     Box(modifier = Modifier.fillMaxSize()) {
 
         // Imagen de fondo para dasboard
@@ -378,17 +406,21 @@ fun DashboardScreen(userName: String) {
                 // Saludo personalizado con el nombre introducido en la pantalla anterior
                 Text(
                     text = "Hola de nuevo $userName !",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFDC4D26)
+                    fontFamily = poppins,
+                    fontSize = 16.sp,
+                    fontStyle = FontStyle.Italic,
+                    color = Maintext
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Tarjeta de "Impacto de hoy"
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .width(350.dp)
+                        .height(154.dp),
+                    shape = RoundedCornerShape(25.dp),
                     colors = CardDefaults.cardColors(containerColor = CardGreenHeader)
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
